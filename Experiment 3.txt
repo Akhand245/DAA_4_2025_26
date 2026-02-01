@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<char> a(n);
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+
+    unordered_map<int, int> m;
+    int s = 0, ans = 0;
+
+    m[0] = -1;
+
+    for (int i = 0; i < n; i++) {
+        if (a[i] == 'P') s++;
+        else s--;
+
+        if (m.find(s) != m.end()) {
+            int len = i - m[s];
+            if (len > ans)
+                ans = len;
+        } else {
+            m[s] = i;
+        }
+    }
+
+    cout << ans;
+    return 0;
+}

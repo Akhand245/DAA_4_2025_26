@@ -1,0 +1,71 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+#define MAX 1000
+int heapSize=0;
+
+int heap[MAX];
+
+void heapifyUp(int i) {
+
+while(i>0 && heap[(i-1)/2]> heap[i]) {
+
+swap(heap[i] , heap[(i-1)/2]);
+i = (i-1)/2;
+}
+}
+
+void insert(int val) {
+
+if(heapSize==MAX) {
+cout<<"heap full";
+return;
+}
+heap[heapSize] = val;
+heapSize++;
+heapifyUp(heapSize-1);
+
+}
+
+void heapifyDown(int i ) {
+
+int smallest = i;
+int left = 2*i+1;
+int right = 2*i+2;
+
+if(left<heapSize && heap[smallest] > heap[left] ) smallest = left;
+if(right<heapSize && heap[smallest] > heap[right]) smallest = right;
+
+if(smallest!=i) {
+swap(heap[smallest] , heap[i]);
+heapifyDown(smallest);
+
+}
+
+
+}
+
+void deleteMin() {
+
+if(heapSize==0) {
+cout<<"empty"<<endl;
+return;
+}
+heap[0] =heap[heapSize-1];
+heapSize--;
+heapifyDown(0);
+
+} 
+int main() {
+
+insert(10);
+insert(20);
+insert(1);
+insert(0);
+
+for(int i =0;i<heapSize;i++) cout<<heap[i]<< " ";
+deleteMin();
+cout<<"\nAfter delete:";
+for(int i =0;i<heapSize;i++) cout<<heap[i]<< " ";
+}	

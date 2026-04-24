@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortest Path Finder - DAA Project</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <h1><i class="fas fa-route"></i> Shortest Path Finder</h1>
+            <div class="nav-links">
+                <a href="#visualizer">Visualizer</a>
+                <a href="#theory">Theory</a>
+                <a href="#algorithms">Algorithms</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Interactive Shortest Path Visualization</h2>
+                <p>Explore Dijkstra's and Bellman-Ford algorithms with real-time visualization</p>
+                <button class="cta-btn" onclick="scrollToVisualizer()">
+                    <i class="fas fa-play"></i> Start Visualizing
+                </button>
+            </div>
+        </section>
+
+        <!-- Visualizer Section -->
+        <section id="visualizer" class="visualizer-section">
+            <div class="container">
+                <h2>Path Visualizer</h2>
+                <div class="controls">
+                    <select id="algorithmSelect">
+                        <option value="dijkstra">Dijkstra's Algorithm</option>
+                        <option value="bellman-ford">Bellman-Ford Algorithm</option>
+                    </select>
+                    <button id="randomGraphBtn" class="btn-primary">
+                        <i class="fas fa-random"></i> Random Graph
+                    </button>
+                    <button id="clearGraphBtn" class="btn-secondary">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <button id="runBtn" class="btn-success">
+                        <i class="fas fa-play"></i> Find Shortest Path
+                    </button>
+                </div>
+                
+                <div class="graph-container">
+                    <canvas id="graphCanvas" width="800" height="500"></canvas>
+                    <div class="graph-tools">
+                        <div class="legend">
+                            <button type="button" class="legend-item legend-button active" id="startTool" data-mode="start">
+                                <div class="start"></div>
+                                <span id="startLegendText">Start: Not selected</span>
+                            </button>
+                            <button type="button" class="legend-item legend-button" id="endTool" data-mode="end">
+                                <div class="end"></div>
+                                <span id="endLegendText">End: Not selected</span>
+                            </button>
+                            <div class="legend-item legend-status">
+                                <div class="visited"></div>
+                                <span id="visitedLegendText">Visited: 0</span>
+                            </div>
+                            <div class="legend-item legend-status">
+                                <div class="path"></div>
+                                <span id="pathLegendText">Shortest Path: 0 nodes</span>
+                            </div>
+                        </div>
+
+                        <div class="builder-controls">
+                            <button id="moveTool" class="btn-secondary builder-btn active-tool" data-mode="move">
+                                <i class="fas fa-hand-paper"></i> Move
+                            </button>
+                            <button id="addNodeTool" class="btn-primary builder-btn" data-mode="add-node">
+                                <i class="fas fa-circle-plus"></i> Add Node
+                            </button>
+                            <button id="addEdgeTool" class="btn-primary builder-btn" data-mode="add-edge">
+                                <i class="fas fa-share-nodes"></i> Add Edge
+                            </button>
+                            <label class="weight-input-group" for="edgeWeightInput">
+                                Distance
+                                <input id="edgeWeightInput" type="number" min="1" value="5">
+                            </label>
+                        </div>
+
+                        <p id="modeHint" class="mode-hint">
+                            Start mode is active. Click a node to choose the start point.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <span id="distance">Distance: --</span>
+                    </div>
+                    <div class="stat-item">
+                        <span id="steps">Steps: 0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span id="time">Time: 0ms</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Theory Section -->
+        <section id="theory" class="theory-section">
+            <div class="container">
+                <h2>Algorithm Theory</h2>
+                <div class="theory-grid">
+                    <div class="theory-card">
+                        <h3>Dijkstra's Algorithm</h3>
+                        <ul>
+                            <li>Greedy algorithm for weighted graphs</li>
+                            <li>Finds shortest path from source to all vertices</li>
+                            <li>Time Complexity: O(V²) or O((V+E)logV) with heap</li>
+                            <li>Works only with non-negative weights</li>
+                        </ul>
+                    </div>
+                    <div class="theory-card">
+                        <h3>Bellman-Ford Algorithm</h3>
+                        <ul>
+                            <li>Dynamic programming approach</li>
+                            <li>Handles negative weights (no negative cycles)</li>
+                            <li>Time Complexity: O(VE)</li>
+                            <li>Detects negative weight cycles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step-by-Step Section -->
+        <section id="algorithms" class="steps-section">
+            <div class="container">
+                <h2>Algorithm Steps</h2>
+                <div class="steps-container">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Initialize</h4>
+                            <p>Set distance[source] = 0, others = ∞. Use priority queue for Dijkstra</p>
+                        </div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Process Vertices</h4>
+                            <p>Extract minimum distance vertex, relax all adjacent edges</p>
+                        </div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Relaxation</h4>
+                            <p>Update distances if shorter path found through current vertex</p>
+                        </div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Complete</h4>
+                            <p>Repeat until all vertices processed or no updates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Shortest Path Finder - DAA Project</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
